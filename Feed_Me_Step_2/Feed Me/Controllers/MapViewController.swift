@@ -46,13 +46,6 @@ class MapViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    // make MapViewController the delegate of locationManager.
-    locationManager.delegate = self
-    // request access to the user’s location.
-    locationManager.requestWhenInUseAuthorization()
-    
-    mapView.delegate = self
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -63,34 +56,6 @@ class MapViewController: UIViewController {
     controller.selectedTypes = searchedTypes
     controller.delegate = self
   }
-  
-  private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
-    
-    // Creates a GMSGeocoder object to turn a latitude and longitude coordinate into a street address.
-    let geocoder = GMSGeocoder()
-    
-    // It verifies there is an address in the response of type GMSAddress. This is a model class for addresses returned by the GMSGeocoder.
-    geocoder.reverseGeocodeCoordinate(coordinate) { response, error in
-      guard let address = response?.firstResult(), let lines = address.lines else {
-        return
-      }
-      
-      // Sets the text of the addressLabel to the address returned by the geocoder.
-      self.addressLabel.text = lines.joined(separator: "\n")
-      
-      // padding
-      let labelHeight = self.addressLabel.intrinsicContentSize.height
-      self.mapView.padding = UIEdgeInsets(top: self.view.safeAreaInsets.top, left: 0,
-                                          bottom: labelHeight, right: 0)
-      
-      // animate the changes in the label.
-      UIView.animate(withDuration: 0.25) {
-        //2
-        self.pinImageVerticalConstraint.constant = ((labelHeight - self.view.safeAreaInsets.top) * 0.5)
-        self.view.layoutIfNeeded()
-      }
-    }
-  }
 }
 
 // MARK: - TypesTableViewControllerDelegate
@@ -98,52 +63,5 @@ extension MapViewController: TypesTableViewControllerDelegate {
   func typesController(_ controller: TypesTableViewController, didSelectTypes types: [String]) {
     searchedTypes = controller.selectedTypes.sorted()
     dismiss(animated: true)
-  }
-}
-
-// MARK: - CLLocationManagerDelegate
-// MapViewController conforms to the CLLocationManagerDelegate protocol.
-extension MapViewController: CLLocationManagerDelegate {
-  // is called when the user grants or revokes location permissions.
-  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-    // Here you verify the user has granted you permission while the app is in use.
-    guard status == .authorizedWhenInUse else {
-      return
-    }
-    // Once permissions have been established, ask the location manager for updates on the user’s location.
-    locationManager.startUpdatingLocation()
-    
-    // draws a light blue dot where the user is located.
-    mapView.isMyLocationEnabled = true
-    // adds a button to the map that, when tapped, centers the map on the user’s location.
-    mapView.settings.myLocationButton = true
-  }
-  
-  // executes when the location manager receives new location data.
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    guard let location = locations.first else {
-      return
-    }
-    
-    // This updates the map’s camera to center around the user’s current location.
-    mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
-    
-    // you don’t want to follow a user around as their initial location is enough for you to work with.
-    locationManager.stopUpdatingLocation()
-  }
-}
-
-// MARK: - GMSMapViewDelegate
-extension MapViewController: GMSMapViewDelegate {
-  
-  // call this method every time the user changes their position on the map.
-  func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-    reverseGeocodeCoordinate(position.target)
-  }
-  
-  // This method is called every time the map starts to move.
-  func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
-    // You call the lock() on the addressLabel to give it a loading animation.
-    addressLabel.lock()
   }
 }
