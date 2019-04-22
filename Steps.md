@@ -1,16 +1,16 @@
 # Google-Maps-workshop
 This repo. contains the source code and slides of the workshop. All materials are taken from [Google Maps iOS SDK Tutorial: Getting Started](https://www.raywenderlich.com/197-google-maps-ios-sdk-tutorial-getting-started).
 
-## Step 1 Use Google Maps iOS SDK
-# Creating API Keys
+# Step 1 Use Google Maps iOS SDK
+## Creating API Keys
 - Login with your Google account in to the [Google Developers Console](https://console.developers.google.com/).
 
-# Adding the SDK
+## Adding the SDK
 - Open `Podfile` and add the following, right above `end`:
 
 `pod 'GoogleMaps'`
 
-- Open Terminal and navigate to the directory that contains your Feed Me.
+- Open Terminal and navigate to the directory that contains your Feed Me project.
 
 - Then, run the following command:
 
@@ -20,13 +20,13 @@ $ pod install
 
 - Open `AppDelegate.swift` and replace `"your-Google-API-key"` with your Google API key.
 
-## Step 2 Get the user’s current location
+# Step 2 Get the user’s current location
 - Open `MapViewController.swift` and add the following property:
 ```swift
 private let locationManager = CLLocationManager()
 ```
 
-- Next, find `viewDidLoad()` and add these two lines to the bottom:
+- Next, find `viewDidLoad()` and add these lines to the bottom:
 ```swift
 locationManager.delegate = self
 locationManager.requestWhenInUseAuthorization()
@@ -69,7 +69,7 @@ extension MapViewController: CLLocationManagerDelegate {
 ```
 
 # Implementing Geocoding
-- Add the method below to `MapViewController.swift`:
+- Add the following method below to `MapViewController.swift`:
 ```swift
 private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
 
@@ -97,7 +97,7 @@ private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
     }
   }
 ```
-- Add another extension to the bottom of MapViewController.swift as follows:
+- Add another extension to the bottom of `MapViewController.swift` as follows:
 ```swift
 // MARK: - GMSMapViewDelegate
 extension MapViewController: GMSMapViewDelegate {
@@ -119,7 +119,7 @@ extension MapViewController: GMSMapViewDelegate {
 }
 ```
 
-## Step 3 Search for nearby places
+# Step 3 Search for nearby places
 - Create a subclass of `GMSMarker`:
 ```swift
 import UIKit
@@ -212,7 +212,7 @@ func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
 }
 ```
 
-- Add the following method to the GMSMapViewDelegate extension:
+- Add the following method to the `GMSMapViewDelegate` extension:
 ```swift
 func didTapMyLocationButton(for mapView: GMSMapView) -> Bool {
   mapCenterPinImage.fadeIn(0.25)
