@@ -68,7 +68,7 @@ extension MapViewController: CLLocationManagerDelegate {
 }
 ```
 
-# Implementing Geocoding
+## Implementing Geocoding
 - Add the following method below to `MapViewController.swift`:
 ```swift
 private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {

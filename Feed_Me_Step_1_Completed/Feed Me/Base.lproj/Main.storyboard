@@ -22,15 +22,25 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.85000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="har-Rk-b7v">
+                                <rect key="frame" x="0.0" y="646.5" width="375" height="20.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_me" translatesAutoresizingMaskIntoConstraints="NO" id="Zk1-KE-lC0">
                                 <rect key="frame" x="172.5" y="310.5" width="30" height="55"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="har-Rk-b7v" firstAttribute="leading" secondItem="r7q-Zb-cJ5" secondAttribute="leading" id="097-7j-rcS"/>
+                            <constraint firstAttribute="trailing" secondItem="har-Rk-b7v" secondAttribute="trailing" id="9iW-s2-ebo"/>
                             <constraint firstAttribute="trailing" secondItem="rdc-gn-tFE" secondAttribute="trailing" id="Bg5-F9-tu8"/>
                             <constraint firstAttribute="bottom" secondItem="rdc-gn-tFE" secondAttribute="bottom" id="DHX-p4-EGD"/>
                             <constraint firstItem="rdc-gn-tFE" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="LcK-ca-p89"/>
+                            <constraint firstItem="r7q-Zb-cJ5" firstAttribute="bottom" secondItem="har-Rk-b7v" secondAttribute="bottom" id="VnF-2q-bc5"/>
                             <constraint firstItem="r7q-Zb-cJ5" firstAttribute="centerX" secondItem="Zk1-KE-lC0" secondAttribute="centerX" id="eEV-hM-eKB"/>
                             <constraint firstItem="rdc-gn-tFE" firstAttribute="top" secondItem="r7q-Zb-cJ5" secondAttribute="top" id="eR8-As-iWN"/>
                             <constraint firstItem="r7q-Zb-cJ5" firstAttribute="centerY" secondItem="Zk1-KE-lC0" secondAttribute="bottom" id="k4j-8V-Zd6"/>
@@ -46,8 +56,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addressLabel" destination="har-Rk-b7v" id="IJ4-Wb-1u3"/>
                         <outlet property="mapCenterPinImage" destination="Zk1-KE-lC0" id="Dfo-xZ-1yc"/>
                         <outlet property="mapView" destination="rdc-gn-tFE" id="n3b-tF-2Kl"/>
+                        <outlet property="pinImageVerticalConstraint" destination="k4j-8V-Zd6" id="T0C-S4-eKO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

@@ -38,7 +38,8 @@ class MapViewController: UIViewController {
   @IBOutlet private weak var mapCenterPinImage: UIImageView!
   @IBOutlet private weak var pinImageVerticalConstraint: NSLayoutConstraint!
   @IBOutlet weak var mapView: GMSMapView!
-    
+  @IBOutlet weak var addressLabel: UILabel!
+  
   var searchedTypes = ["bakery", "bar", "cafe", "grocery_or_supermarket", "restaurant"]
   
   override func viewDidLoad() {
