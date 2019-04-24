@@ -73,8 +73,10 @@ extension MapViewController: CLLocationManagerDelegate {
 ```swift
 private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
 
+    // Creates a GMSGeocoder object to turn a latitude and longitude coordinate into a street address.
     let geocoder = GMSGeocoder()
 
+    // Asks the geocoder to reverse geocode the coordinate passed to the method.
     geocoder.reverseGeocodeCoordinate(coordinate) { response, error in
       self.addressLabel.unlock()
       guard let address = response?.firstResult(), let lines = address.lines else {
@@ -102,6 +104,7 @@ private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
 // MARK: - GMSMapViewDelegate
 extension MapViewController: GMSMapViewDelegate {
 
+  // This method is called each time the map stops moving and settles in a new position.
   func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
   reverseGeocodeCoordinate(position.target)
   }
@@ -153,10 +156,12 @@ private func fetchNearbyPlaces(coordinate: CLLocationCoordinate2D) {
 
   mapView.clear()
 
+  // Use dataProvider to query Google for nearby places within the searchRadius, filtered to the user’s selected types.
   dataProvider.fetchPlacesNearCoordinate(coordinate, radius:searchRadius, types: searchedTypes) { places in
     places.forEach {
 
       let marker = PlaceMarker(place: $0)
+      // Render the marker.
       marker.map = self.mapView
     }
   }
@@ -182,18 +187,23 @@ fetchNearbyPlaces(coordinate: mapView.camera.target)
 
 - Add the following method to the `GMSMapViewDelegate` extension in `MapViewController.swift`:
 ```swift
+// This method is called each time the user taps a marker on the map.
 func mapView(_ mapView: GMSMapView, markerInfoContents marker: GMSMarker) -> UIView? {
 
+  // You first cast the tapped marker to a PlaceMarker.
   guard let placeMarker = marker as? PlaceMarker else {
     return nil
   }
 
+  // Create a MarkerInfoView from its nib.
   guard let infoView = UIView.viewFromNibName("MarkerInfoView") as? MarkerInfoView else {
     return nil
   }
 
+  // Apply the place name to the nameLabel.
   infoView.nameLabel.text = placeMarker.place.name
 
+  // Check if there’s a photo for the place. If so, add that photo to the info view. If not, add a generic photo instead.
   if let photo = placeMarker.place.photo {
     infoView.placePhoto.image = photo
   } else {
@@ -206,6 +216,7 @@ func mapView(_ mapView: GMSMapView, markerInfoContents marker: GMSMarker) -> UIV
 
 - Add the following method to the `GMSMapViewDelegate` extension:
 ```swift
+// This method simply hides the location pin when a marker is tapped.
 func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
   mapCenterPinImage.fadeOut(0.25)
   return false
@@ -214,6 +225,7 @@ func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
 
 - Add the following method to the `GMSMapViewDelegate` extension:
 ```swift
+// This method runs when the user taps the Locate button; the map will then center on the user’s location.
 func didTapMyLocationButton(for mapView: GMSMapView) -> Bool {
   mapCenterPinImage.fadeIn(0.25)
   mapView.selectedMarker = nil
